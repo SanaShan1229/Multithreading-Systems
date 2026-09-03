@@ -1,7 +1,5 @@
 package edu.utexas.cs.cs378;
 
-import java.util.Map;
-
 public class Main {
 
 	/**
@@ -16,7 +14,7 @@ public class Main {
 		
 		// This line is just for Kia :) 
 		// You should pass the file name and path as first argument of this main method. 
-		String file = "/Users/kiat/Downloads/WikipediaPagesOneDocPerLine.txt.bz2";
+		String file = "taxi-data-sorted-small.csv.bz2";
 		
 		if(args.length>0)
 			file=args[0];
@@ -31,11 +29,11 @@ public class Main {
 		
 		MapToDataFile.mapIt(file, batchSize, outputTempFile);
 		
-		System.out.println("Now, we start reading the temp data and reducing it.");
+		//System.out.println("Now, we start reading the temp data and reducing it.");
 		
-		Map<String, Long> results = Reducer.reduceFromFile(outputTempFile);	
+		//Map<String, Long> results = Reducer.reduceFromFile(outputTempFile);	
 		
-		MapToDataFile.appendToTempFile(results, "results.txt");
+		//MapToDataFile.appendToTempFile(results, "results.txt");
 		
 
 	}

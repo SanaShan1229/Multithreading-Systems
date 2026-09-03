@@ -9,10 +9,10 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -81,11 +81,24 @@ public class MapToDataFile {
 		
 		Long lineCounter = 0l;
 		// Start reading the file line by line.
+		long total = 0L;
+		long valid = 0L;
+		long error = 0L;
 		while ((line = br.readLine()) != null) {
 
 			lineCounter += 1;
-
+			total++;
+			if(validate(line)) {
+				valid++;
+			}
+			else {
+				error++;
+				if(error <= 5) {
+					System.out.println("Found error in line: " + line);
+				}
+			}
 			// add the current text line to the data batch that we want to process.
+			/* 
 			batch.append(line);
 
 			if (lineCounter % batchSize == 0) {
@@ -101,7 +114,12 @@ public class MapToDataFile {
 				batch = new StringBuilder("");
 
 			}
+			*/
 		}
+		System.out.println("Done processing.");
+		System.out.println("Total lines: " + total);
+		System.out.println("Valid lines: " + valid);
+		System.out.println("Error lines: " + error);
 	}
 
 	/**
@@ -109,6 +127,25 @@ public class MapToDataFile {
 	 * @param input
 	 * @return
 	 */
+
+	private static boolean validate(String line) {
+		if(line == null) {
+			return false;
+		}
+		// -1 delimeters bc trailing commas are now dealth with
+		String[] split = line.split(",", -1);
+		if(split.length != 17) {
+			return false;
+		}
+		String fare = split[11].trim();
+		try {
+			Float.parseFloat(fare);
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
+	}
 
 	public static Map<String, Long> processLine(String input) {
 
