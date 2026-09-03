@@ -9,8 +9,11 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -84,12 +87,29 @@ public class MapToDataFile {
 		long total = 0L;
 		long valid = 0L;
 		long error = 0L;
+		ArrayList<String> validLines = new ArrayList<>();
+		ArrayList<File> validFiles = new ArrayList<>();
+		int id = 1;
+		int limit = 500000;
 		while ((line = br.readLine()) != null) {
 
 			lineCounter += 1;
 			total++;
 			if(validate(line)) {
 				valid++;
+				validLines.add(line);
+				if(validLines.size() >= limit) {
+					Collections.sort(validLines, (a,b) -> {
+						float fareA = Float.parseFloat(a.split(",")[11].trim());
+						float fareB = Float.parseFloat(b.split(",")[11].trim());
+						return Float.compare(fareA, fareB);
+					});
+					File file = new File("miniSortedFile" + (id) + ".csv");
+					id++;
+					Files.write(file.toPath(), validLines);
+					validFiles.add(file);
+					validLines = new ArrayList<>();
+				}
 			}
 			else {
 				error++;
@@ -97,6 +117,7 @@ public class MapToDataFile {
 					System.out.println("Found error in line: " + line);
 				}
 			}
+	
 			// add the current text line to the data batch that we want to process.
 			/* 
 			batch.append(line);
@@ -115,6 +136,18 @@ public class MapToDataFile {
 
 			}
 			*/
+		}
+		//left over bits
+		if(!validLines.isEmpty()) {
+			Collections.sort(validLines, (a,b) -> {
+				float fareA = Float.parseFloat(a.split(",")[11].trim());
+				float fareB = Float.parseFloat(b.split(",")[11].trim());
+				return Float.compare(fareA, fareB);
+			});
+			File file = new File("miniSortedFile" + (id) + ".csv");
+			id++;
+			Files.write(file.toPath(), validLines);
+			validFiles.add(file);
 		}
 		System.out.println("Done processing.");
 		System.out.println("Total lines: " + total);
