@@ -1,6 +1,6 @@
 # Multithreading Systems
 
-A Java-based data processing project for CS378: Cloud Computing focused on streaming, validation, batching, and map/reduce-style processing over large taxi-related datasets.
+A Java multithreading project that processes large data efficiently by splitting work across threads, validating and sorting data, and combining results into a final output. It highlights parallel programming, thread coordination, performance optimization, and high-throughput data processing.
 
 ## Team
 
