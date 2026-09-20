@@ -4,13 +4,8 @@ A Java-based data processing project for CS378: Cloud Computing focused on strea
 
 ## Team
 
-- Sanchana Shanmuga — ss229638
-- Victoria Reddy — vrr593
-
-## Course
-
-- CS378 - Cloud Computing
-- Unique Number: 51515
+- Sanchana Shanmuga
+- Victoria Reddy
 
 ## Project Overview
 
