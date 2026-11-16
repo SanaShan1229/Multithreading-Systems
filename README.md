@@ -1,6 +1,6 @@
 # Multithreading Systems
 
-A Java multithreading project that processes large data efficiently by splitting work across threads, validating and sorting data, and combining results into a final output. It highlights parallel programming, thread coordination, performance optimization, and high-throughput data processing.
+A Java data-processing pipeline built as the first phase of a multithreading-focused systems project (UT Austin CS 378). This phase runs single-threaded: it streams a large compressed dataset, validates and sorts records, and writes chunked output files that later stages can process in parallel across threads.
 
 ## Team
 
